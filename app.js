@@ -3,29 +3,31 @@ const login = require('./routes/route');
 const playlist = require('./controllers/playlists')
 const path = require('path');
 const session = require('express-session');
+const mongodbStore = require('connect-mongodb-session')(session);
 
 app = express();
+const mongoc = require('./util/database');
+
+const MONGOURI= 'mongodb+srv://acarava3:Tottenh%40m124@cluster0.ojpaa.mongodb.net/?retryWrites=true&w=majority'; //mongoDB uri for our server
+
+const store = new mongodbStore({
+    uri: MONGOURI,
+    collection: 'sessions' //create new collection on the server called sessions
+});
 
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
-// app.use(
-//     session({secret: 'my secret', resave: false, saveUninitialized:false})
-// );
+
+mongoc(client => {
+    app.listen(8888);
+});
+app.use(
+    session({secret: 'my secret', resave: false, saveUninitialized:false, store: store}) //secret encodes the session id
+);
 
 app.use(login.routes);
 
-//we can create a middleware function here that assigns the access_token and refresh token to the request body from the client
-
-// app.use((req, res, err) =>{
-//     find(Access_token)
-//     .then(access_token => {
-//         req.access_token = access_token;
-//     })
-//     .catch(err => {
-//         console.log(err);
-//     })
-// })
 
 app.use(playlist.createPlaylist);
 app.use('*', (req,res) => {
@@ -35,4 +37,4 @@ app.use('*', (req,res) => {
 
 
 
-app.listen(8888);
+
