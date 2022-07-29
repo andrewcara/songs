@@ -111,7 +111,7 @@ exports.Callback = (req, res, next) =>{
       request.get(options, (error, response, bod) => {
         res.locals.bod = bod;
         res.locals.access_token = access_token; //this is making the body of the login response and the access token local variables that can be accessed later
-        //req.session.acces_token = access_token
+        req.session.acces_token = access_token
         res.setHeader('Set-Cookie', `Access-Token: ${access_token}; HttpOnly`); //we can store the access token in a cookie
         res.render(path.join(__dirname, '../', 'views', 'user.html')); //res.locals do not have to be specified here
       });
