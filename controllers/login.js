@@ -116,6 +116,7 @@ exports.Callback = (req, res, next) =>{
         req.session.access_token = access_token; //here we log the access_token, the refresh token and the expiration time in the session log
         req.session.refresh_token = refresh_token;
         req.session.bod_id = bod.id;
+        req.session.cookie.expires = false;
 
         //res.setHeader('Set-Cookie', `Access-Token: ${access_token}; HttpOnly`); //we can store the access token in a cookie
         res.render(path.join(__dirname, '../', 'views', 'user.html')); //res.locals do not have to be specified here
