@@ -1,0 +1,20 @@
+{
+  "name": "js-spotify-login",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js",
+    "start-server": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "connect-mongodb-session": "^3.1.1",
+    "ejs": "^3.1.8",
+    "express-session": "^1.17.3",
+    "nodemon": "^2.0.19",
+    "request": "^2.88.2"
+  }
+}
