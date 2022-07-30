@@ -26,7 +26,6 @@ var generateRandomString = function(length) {
 
 exports.getLogin= (req,res,next)=>{
 
-    
     res.render(path.join(__dirname, '../', 'views', 'index.html')); //holds the absolute path on this operating system
       
      //data becomes inherent to node server. Usually not the best way to handle requests as it shows for all users

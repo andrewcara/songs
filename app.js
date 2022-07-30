@@ -23,17 +23,17 @@ mongoc(client => {
     app.listen(8888);
 });
 app.use(
-    session({secret: 'my secret', resave: false, saveUninitialized:false, store: store}) //secret encodes the session id
-);
+    session({secret: 'my secret', resave: false, saveUninitialized:false, store: store,  xookie: {maxAge: new Date(Date.now() + 360000)}}) //secret encodes the session id
+); //Right now this is storing the session immediately which is messing up subsequent calls from the event loop. 
 
 app.use(login.routes);
 
 
-
-
 app.use(playlist.createPlaylist);
+
+
 app.use('*', (req,res) => {
-    res.render(path.join(__dirname, 'views', '404.html'));
+    res.render(path.join(__dirname, 'views', '404.html')); //default path in case endpoint in
 })
 
 
