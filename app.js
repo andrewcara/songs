@@ -1,38 +1,42 @@
 const express = require('express');
 const login = require('./routes/route');
-const playlist = require('./controllers/playlists')
+const playlist = require('./routes/playlist');
 const path = require('path');
 const session = require('express-session');
+const mongodbStore = require('connect-mongodb-session')(session);
 
 app = express();
+const mongoc = require('./util/database');
+
+const MONGOURI= 'mongodb+srv://acarava3:Tottenh%40m124@cluster0.ojpaa.mongodb.net/?retryWrites=true&w=majority'; //mongoDB uri for our server
+
+const store = new mongodbStore({
+    uri: MONGOURI,
+    collection: 'sessions' //create new collection on the server called sessions
+});
 
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
-// app.use(
-//     session({secret: 'my secret', resave: false, saveUninitialized:false})
-// );
+
+mongoc(client => {
+    app.listen(8888);
+});
+app.use(
+    session({secret: 'my secret', resave: false, saveUninitialized:false, store: store,  Cookie: {maxAge: new Date(Date.now() + 360000)}}) //secret encodes the session id
+); //Right now this is storing the session immediately which is messing up subsequent calls from the event loop. 
 
 app.use(login.routes);
 
-//we can create a middleware function here that assigns the access_token and refresh token to the request body from the client
 
-// app.use((req, res, err) =>{
-//     find(Access_token)
-//     .then(access_token => {
-//         req.access_token = access_token;
-//     })
-//     .catch(err => {
-//         console.log(err);
-//     })
-// })
+app.use(playlist.routes);
 
-app.use(playlist.createPlaylist);
+
 app.use('*', (req,res) => {
-    res.render(path.join(__dirname, 'views', '404.html'));
+    res.render(path.join(__dirname, 'views', '404.html')); //default path in case endpoint in
 })
 
 
 
 
-app.listen(8888);
+

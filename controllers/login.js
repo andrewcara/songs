@@ -10,10 +10,6 @@ client_secret = process.env.SPOTIPY_CLIENT_SECRET
 client_id = client_id.replace(/\s/g, '');
 client_secret = client_secret.replace(/\s/g, '');
 
-// const client_id = 'daf925983160411786bc9afd3c8db891';
-// const client_secret = '2be54995915c4bd197d6d85650faf39d';
-
-
 var generateRandomString = function(length) {
     var text = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -26,7 +22,6 @@ var generateRandomString = function(length) {
 
 exports.getLogin= (req,res,next)=>{
 
-    
     res.render(path.join(__dirname, '../', 'views', 'index.html')); //holds the absolute path on this operating system
       
      //data becomes inherent to node server. Usually not the best way to handle requests as it shows for all users
@@ -53,7 +48,8 @@ exports.AuthLogin = (req, res) => {
 
     var scope = "streaming \
                  user-read-email \
-                 user-read-private"
+                 user-read-private \
+                 playlist-modify-public"
   
     var state = generateRandomString(16);
   
@@ -98,9 +94,9 @@ exports.Callback = (req, res, next) =>{
   request.post(authOptions, function(error, response, body) {
     if (!error && response.statusCode === 200) {
 
-      var access_token = body.access_token,
-          refresh_token = body.refresh_token;
-      req.access_token = access_token;
+      var access_token = body.access_token; //retreiving the token imformation from the post request 
+      var refresh_token = body.refresh_token;
+      var expiration = body.expires_in;
       var options = {
         url: 'https://api.spotify.com/v1/me',
         headers: { 'Authorization': 'Bearer ' + access_token },
@@ -111,8 +107,13 @@ exports.Callback = (req, res, next) =>{
       request.get(options, (error, response, bod) => {
         res.locals.bod = bod;
         res.locals.access_token = access_token; //this is making the body of the login response and the access token local variables that can be accessed later
-        //req.session.acces_token = access_token
-        res.setHeader('Set-Cookie', `Access-Token: ${access_token}; HttpOnly`); //we can store the access token in a cookie
+        
+        req.session.access_token = access_token; //here we log the access_token, the refresh token and the expiration time in the session log
+        req.session.refresh_token = refresh_token;
+        req.session.bod_id = bod.id;
+        req.session.cookie.expires = false;
+
+        //res.setHeader('Set-Cookie', `Access-Token: ${access_token}; HttpOnly`); //we can store the access token in a cookie
         res.render(path.join(__dirname, '../', 'views', 'user.html')); //res.locals do not have to be specified here
       });
 
