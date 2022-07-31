@@ -4,10 +4,9 @@ const requests = require('request');
 exports.createPlaylist = (req, res, next) => {
     
     
-    //console.log(req.session.access_token);
-    //console.log(req.session.bod_id);
+    console.log(req.session.access_token);
+    console.log(req.session.bod_id);
 
-    if (req.session.access_token){
         var options = {
             url: `https://api.spotify.com/v1/users/${req.session.bod_id}/playlists`,
             
@@ -24,13 +23,14 @@ exports.createPlaylist = (req, res, next) => {
         };
 
         requests.post(options, function(error, response, body) {
+            
             body = JSON.parse(body);
-            console.log(body.error.status);
+
+            if (body.error.status === 403){
+                res.redirect('/refresh-token'); //need to add this endpoint to get a refresh token if the one we are using expires
+            }
         });
-}
 
-        else {
-            res.redirect('/login')
-        }
 
 }
+

@@ -10,10 +10,6 @@ client_secret = process.env.SPOTIPY_CLIENT_SECRET
 client_id = client_id.replace(/\s/g, '');
 client_secret = client_secret.replace(/\s/g, '');
 
-// const client_id = 'daf925983160411786bc9afd3c8db891';
-// const client_secret = '2be54995915c4bd197d6d85650faf39d';
-
-
 var generateRandomString = function(length) {
     var text = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

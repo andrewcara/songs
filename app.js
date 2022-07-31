@@ -1,6 +1,6 @@
 const express = require('express');
 const login = require('./routes/route');
-const playlist = require('./controllers/playlists')
+const playlist = require('./routes/playlist');
 const path = require('path');
 const session = require('express-session');
 const mongodbStore = require('connect-mongodb-session')(session);
@@ -23,13 +23,13 @@ mongoc(client => {
     app.listen(8888);
 });
 app.use(
-    session({secret: 'my secret', resave: false, saveUninitialized:false, store: store,  xookie: {maxAge: new Date(Date.now() + 360000)}}) //secret encodes the session id
+    session({secret: 'my secret', resave: false, saveUninitialized:false, store: store,  Cookie: {maxAge: new Date(Date.now() + 360000)}}) //secret encodes the session id
 ); //Right now this is storing the session immediately which is messing up subsequent calls from the event loop. 
 
 app.use(login.routes);
 
 
-app.use(playlist.createPlaylist);
+app.use(playlist.routes);
 
 
 app.use('*', (req,res) => {
