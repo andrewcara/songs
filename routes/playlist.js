@@ -3,11 +3,11 @@ const express = require('express');
 
 const router = express.Router();
 
-const playlist = require('../controllers/playlists')
+const playlist = require('../controllers/playlists');
 
-router.get('/create-playlist', playlist.createPlaylist);
+router.use('/create-playlist', playlist.createPlaylist);
 
-//router.post('/add-playlist');
+router.post('/add-playlist', playlist.addToPlaylist);
 
 
 exports.routes = router;
