@@ -26,6 +26,7 @@ app.use(
     session({secret: 'my secret', resave: false, saveUninitialized:false, store: store,  Cookie: {maxAge: new Date(Date.now() + 360000)}}) //secret encodes the session id
 ); //Right now this is storing the session immediately which is messing up subsequent calls from the event loop. 
 
+
 app.use(login.routes);
 
 

@@ -1,12 +1,12 @@
 const requests = require('request');
 const path = require('path');
+const session = require('express-session');
 
 
 exports.createPlaylist = (req, res, next) => {
-  
-
+    
         var options = {
-            url: `https://api.spotify.com/v1/users/${req.session.bod_id}/playlists`,
+            url: `https://api.spotify.com/v1/users/${req.session.user_id}/playlists`,
             
             body: JSON.stringify({
                 "name": "new playlist",
@@ -37,7 +37,7 @@ exports.createPlaylist = (req, res, next) => {
 // adding songs to spotify playlist
  
 exports.addToPlaylist = (req,res,next) => {
- 
+    //Weekly calls. Would add if(uris) as a condition so that post requests were only issued when there are songs to add
    var request = require('request');
        var authOptions1 = {
            url: `https://api.spotify.com/v1/playlists/${req.session.playlist_id}/tracks`,
