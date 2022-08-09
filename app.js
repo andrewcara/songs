@@ -1,6 +1,7 @@
 const express = require('express');
 const login = require('./routes/route');
 const playlist = require('./routes/playlist');
+const token = require("./routes/tokens")
 const path = require('path');
 const session = require('express-session');
 const mongodbStore = require('connect-mongodb-session')(session);
@@ -31,6 +32,8 @@ app.use(login.routes);
 
 
 app.use(playlist.routes);
+
+app.use(token.routes);
 
 
 app.use('*', (req,res) => {
