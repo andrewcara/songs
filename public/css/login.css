@@ -1,0 +1,11 @@
+body {
+    background-color: rgb(230, 235, 236);
+  }
+  h1 {
+    color: rgb(0, 0, 0);
+    text-align:center;
+  }
+  .login {
+    color: rgb(0, 0, 0);
+    text-align: center;
+  }
