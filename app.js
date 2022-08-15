@@ -13,7 +13,12 @@ const MONGOURI= 'mongodb+srv://acarava3:Tottenh%40m124@cluster0.ojpaa.mongodb.ne
 
 const store = new mongodbStore({
     uri: MONGOURI,
-    collection: 'sessions' //create new collection on the server called sessions
+    collection: 'sessions', //create new collection on the server called sessions
+    expirationDate: {
+        type: Date,
+        expires:0
+    },
+    createdAt: { type: Date, expires: 3600 }
 });
 
 app.engine('html', require('ejs').renderFile);
@@ -25,7 +30,7 @@ mongoc(client => {
     app.listen(8888);
 });
 app.use(
-    session({secret: 'my secret', resave: false, saveUninitialized:false, store: store,  Cookie: {maxAge: new Date(Date.now() + 360000)}}) //secret encodes the session id
+    session({secret: 'my secret', resave: false, saveUninitialized:false, expireAfterSeconds: 3600, store: store}) //secret encodes the session id
 ); //Right now this is storing the session immediately which is messing up subsequent calls from the event loop. 
 
 

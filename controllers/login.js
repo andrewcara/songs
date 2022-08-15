@@ -102,7 +102,7 @@ exports.Callback = (req, res, next) =>{
         headers: { 'Authorization': 'Bearer ' + access_token },
         json: true
       };
-
+      
       // use the access token to access the Spotify Web API
       request.get(options, (error, response, bod) => {
         res.locals.bod = bod;
@@ -112,7 +112,7 @@ exports.Callback = (req, res, next) =>{
         req.session.refresh_token = refresh_token;
         req.session.user_id = bod.id;
         req.session.cookie.expires = false;
-        console.log(req.session.access_token)
+        console.log(req.session.refresh_token)
         
         //res.setHeader('Set-Cookie', `Access-Token: ${access_token}; HttpOnly`); //we can store the access token in a cookie
         res.render(path.join(__dirname, '../', 'views', 'user.html')); //res.locals do not have to be specified here
