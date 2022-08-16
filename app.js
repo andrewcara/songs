@@ -5,7 +5,6 @@ const token = require("./routes/tokens")
 const path = require('path');
 const session = require('express-session');
 const mongodbStore = require('connect-mongodb-session')(session);
-
 app = express();
 const mongoc = require('./util/database');
 
@@ -13,12 +12,8 @@ const MONGOURI= 'mongodb+srv://acarava3:Tottenh%40m124@cluster0.ojpaa.mongodb.ne
 
 const store = new mongodbStore({
     uri: MONGOURI,
-    collection: 'sessions', //create new collection on the server called sessions
-    expirationDate: {
-        type: Date,
-        expires:0
-    },
-    createdAt: { type: Date, expires: 3600 }
+    collection: 'sessions', //create new collection called sessions
+    
 });
 
 app.engine('html', require('ejs').renderFile);
@@ -26,18 +21,31 @@ app.set('view engine', 'html');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-mongoc(client => {
+mongoc(client => { //accessing the client object from mongoc
     app.listen(8888);
+    client.db('test').collection('sessions').findOne({}, function (findErr, result) {
+        if (findErr) throw findErr;
+        console.log(result);
+        client.close();
+      });
 });
-app.use(
-    session({secret: 'my secret', resave: false, saveUninitialized:false, expireAfterSeconds: 3600, store: store}) //secret encodes the session id
-); //Right now this is storing the session immediately which is messing up subsequent calls from the event loop. 
+
+app.use(session({
+    secret  : "Stays my secret",
+    cookie: {
+        maxAge  : new Date(Date.now() + 3600000) //1 Hour
+        //secure: true
+        
+    },
+    store  :store
+}));
 
 
 app.use(login.routes);
 
 
 app.use(playlist.routes);
+
 
 app.use(token.routes);
 

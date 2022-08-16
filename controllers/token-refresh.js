@@ -1,8 +1,12 @@
 const requests = require('request');
 const path = require('path');
 const session = require('express-session');
+const dbHelper = require('../util/db-helpers')
+const mongoc = require('../util/database');
+
 
 exports.refreshToken = (req, res, next) => {
+
    var refresh_token = req.session.refresh_token;
    var authOptions = {
      url: 'https://accounts.spotify.com/api/token',
