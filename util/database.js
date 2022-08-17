@@ -1,16 +1,23 @@
-const mongodb = require('mongodb').MongoClient;;
+const { connect } = require('cookies')
 
+const MongoClient = require('mongodb').MongoClient
 
-const mongoc = (callback) =>  { //takes a callback function
-    mongodb.connect('mongodb+srv://acarava3:Tottenh%40m124@cluster0.ojpaa.mongodb.net/?retryWrites=true&w=majority')
-    .then(client => { //connect returns a promise with a client object if succesful or an error object if not
-        console.log('connected');
-        callback(client); // callback is only called once DB is connected. In this case the port 8888 does not listen until a db connection is established
-    })//function has access to the client object
-    .catch(err => {
-        console.log(err);
-    });
-};
+class Connection {
 
+    static async open() {
+        if (this.db) return this.db
+        this.db = await MongoClient.connect(this.url, this.options) //sets the Connection.db attribute to the mongo client response which can then be used for queries in the future
+        console.log('connected')
+        return this.db
+    }
 
-module.exports = mongoc;
+}
+
+Connection.db = null
+Connection.url = 'mongodb+srv://acarava3:Tottenh%40m124@cluster0.ojpaa.mongodb.net/?retryWrites=true&w=majority'
+Connection.options = {
+    useNewUrlParser:    true,
+    useUnifiedTopology: true,
+}
+
+module.exports = { Connection }

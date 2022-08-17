@@ -6,9 +6,11 @@ const path = require('path');
 const session = require('express-session');
 const mongodbStore = require('connect-mongodb-session')(session);
 app = express();
-const mongoc = require('./util/database');
+const { Connection } = require('./util/database')
 
 const MONGOURI= 'mongodb+srv://acarava3:Tottenh%40m124@cluster0.ojpaa.mongodb.net/?retryWrites=true&w=majority'; //mongoDB uri for our server
+
+Connection.open() //initialize connection immediately 
 
 const store = new mongodbStore({
     uri: MONGOURI,
@@ -21,14 +23,7 @@ app.set('view engine', 'html');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-mongoc(client => { //accessing the client object from mongoc
-    app.listen(8888);
-    client.db('test').collection('sessions').findOne({}, function (findErr, result) {
-        if (findErr) throw findErr;
-        console.log(result);
-        client.close();
-      });
-});
+app.listen(8888)
 
 app.use(session({
     secret  : "Stays my secret",

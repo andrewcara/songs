@@ -1,14 +1,18 @@
 const path = require('path');
 const querystring = require('querystring');
 const request = require('request');
-
-
+const {Connection} = require('../util/database')
+const findSession = require('../util/db-helpers')
 const redirect_uri = 'http://localhost:8888/callback';
 
 client_id = process.env.SPOTIPY_CLIENT_ID
 client_secret = process.env.SPOTIPY_CLIENT_SECRET
 client_id = client_id.replace(/\s/g, '');
 client_secret = client_secret.replace(/\s/g, '');
+
+
+Connection.open()
+
 
 var generateRandomString = function(length) {
     var text = '';
@@ -111,8 +115,10 @@ exports.Callback = (req, res, next) =>{
         req.session.access_token = access_token; //here we log the access_token, the refresh token and the expiration time in the session log
         req.session.refresh_token = refresh_token;
         req.session.user_id = bod.id;
-        req.session.cookie.expires = false;
-        console.log(req.session.refresh_token)
+        
+        findSession(Connection,req.session.id)
+        console.log(req.session.id)
+
         
         //res.setHeader('Set-Cookie', `Access-Token: ${access_token}; HttpOnly`); //we can store the access token in a cookie
         res.render(path.join(__dirname, '../', 'views', 'user.html')); //res.locals do not have to be specified here

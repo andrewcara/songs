@@ -1,16 +1,14 @@
+//here we are creating a function that will use the current session from the browser and see if it exists in the database
 
+const findSession = (dbo,id) => { 
 
-const findSession = (db,id,cb) => {
-
-    var query = { id_: id };
-    dbo.collection("sessions").find(query).toArray(function(err, result) {
+    var query = { _id: id }; //map the value in the db to the session id
+    dbo.db.db('test').collection("sessions").find(query).toArray(function(err, result) { //query the database based on the session id
     if (err) throw err;
     console.log(result);
-    db.close();
+    dbo.db.close();
   });
-
-  cb();
 
 }
 
-exports.findSession = findSession
+module.exports = findSession
