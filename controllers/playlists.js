@@ -42,7 +42,7 @@ exports.addToPlaylist = (req,res,next) => {
        var authOptions1 = {
            url: `https://api.spotify.com/v1/playlists/${req.session.playlist_id}/tracks`,
            body: JSON.stringify({
-             "uris": ['spotify:track:0cFlXjTxFdMGGPfLVpt3Wv'] //array of strings - this is a test one
+             "uris": ['spotify:track:0cFlXjTxFdMGGPfLVpt3Wv'] //array of strings that specify a spotify song - this is a test one
            }),
            dataType:'json',
            headers: {
