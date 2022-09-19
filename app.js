@@ -7,7 +7,7 @@ const session = require('express-session');
 const mongodbStore = require('connect-mongodb-session')(session);
 const { Connection } = require('./util/database')
 
-
+//comment seeing if clone worked
 app = express();
 const MONGOURI= 'mongodb+srv://acarava3:Tottenh%40m124@cluster0.ojpaa.mongodb.net/?retryWrites=true&w=majority'; //mongoDB uri for our server
 
