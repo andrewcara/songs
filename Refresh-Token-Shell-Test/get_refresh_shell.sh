@@ -1,3 +1,3 @@
 cd /c/Program Files/nodejs/node
 
-node app.js
+node app-test.js
