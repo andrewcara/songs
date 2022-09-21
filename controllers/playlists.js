@@ -26,7 +26,6 @@ exports.createPlaylist = (req, res, next) => {
             const tempPlaylist = body.uri.split(":"); //example response - spotify:playlist:2d0gkKNytoyBS8Nx1tuCE0 the uri is returned in response to the post request
             req.session.playlist_id = (tempPlaylist[2]); //adding the playlist to the session
             res.render(path.join(__dirname, '../', 'views', 'created-playlist.html'), {playlist: req.session.playlist_id});
-
             // //if (body.error.status === 403){
             //     res.redirect('/refresh-token'); //need to add this endpoint to get a refresh token if the one we are using expires
             // }

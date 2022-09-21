@@ -109,7 +109,9 @@ exports.Callback = (req, res, next) =>{
         req.session.access_token = access_token; //here we log the access_token, the refresh token and the expiration time in the session log
         req.session.refresh_token = refresh_token;
         req.session.user_id = bod.id;
-        //console.log(req.session.id)
+        
+        console.log(access_token)
+        //console.log(user_id)
 
         res.render(path.join(__dirname, '../', 'views', 'user.html')); //res.locals do not have to be specified here
       });
