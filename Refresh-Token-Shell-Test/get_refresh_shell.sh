@@ -1,3 +1,3 @@
 cd /c/Program Files/nodejs/node
 
-node app-test.js
+node refresh-token-shell.js
