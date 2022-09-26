@@ -1,4 +1,6 @@
 #! /bin/bash
+
+#This was the configuration used for the com.helloworld.plist file
 echo 'export PATH=$PATH:/usr/local/bin' >> $HOME/.bashrc
 source $HOME/.bashrc
 cd /Users/abdullahtufail/andrew-post-playlist && /usr/local/bin/node
