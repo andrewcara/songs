@@ -7,6 +7,7 @@ import numpy as np
 from urllib import parse
 import re
 
+#Helper function for decoding blob located withing the attributedBody column in chat.db
 def split_it(url_l):
     url_l = url_l.decode("utf-8", "ignore")
     url_l = ''.join(url_l.split())
@@ -16,7 +17,7 @@ def split_it(url_l):
         return results.group()
     return None
 
-def getSongs():
+def getSongs(chat_id, last_updated):
 
 
     conn = sqlite3.connect('/Users/andrewcaravaggio/Library/Messages/chat.db')
@@ -36,23 +37,20 @@ def getSongs():
 
     chatMessagesAndHandlesJoined = pd.merge(messagesAndHandlesJoined, chatMessagesJoined, on = 'message_id', how='left')
 
-    houseMusicChat = chatMessagesAndHandlesJoined[chatMessagesAndHandlesJoined['chat_id'] == 10]
+    houseMusicChat = chatMessagesAndHandlesJoined[chatMessagesAndHandlesJoined['chat_id'] == chat_id]
     
     houseMusicChat = houseMusicChat[['text', 'attributedBody','date_utc']]
     
 
     # The part of the code where we can use the last updated field in the database to sync the playlist
-    #2023-01-17 represents the last updated field in the record being updated
-    # houseMusicChat['date_utc'] = pd.to_datetime(houseMusicChat['date_utc'], format='%Y-%m-%d %H:%M:%S')
-    # houseMusicChat = houseMusicChat.loc[(houseMusicChat['date_utc'] >= '2023-01-17')]
-
-
+    houseMusicChat['date_utc'] = pd.to_datetime(houseMusicChat['date_utc'], format='%Y-%m-%d %H:%M:%S')
+    houseMusicChat = houseMusicChat.loc[(houseMusicChat['date_utc'] >= last_updated)] #Find all records stored after the last_updated field in the DB
 
     spotifyTrackText = 'https://open.spotify.com/track/'
 
-    houseMusicChat['decoded_blob'] = houseMusicChat['attributedBody'].apply(split_it)
+    houseMusicChat['decoded_blob'] = houseMusicChat['attributedBody'].apply(split_it) #Applying the regex function to every blob 
 
-    houseMusicChat = houseMusicChat[houseMusicChat['decoded_blob'].str.startswith(spotifyTrackText) == True]
+    houseMusicChat = houseMusicChat[houseMusicChat['decoded_blob'].str.startswith(spotifyTrackText) == True] #Keep only the rows that have a spotify song in them
 
     trackIDs = []
 
@@ -62,7 +60,3 @@ def getSongs():
 
     trackIdsWithoutDuplicates = sam_list = list(set(trackIDs)) 
     return trackIdsWithoutDuplicates
-
-x = getSongs()
-
-#np.savetxt(r'/Users/andrewcaravaggio/SideProjects/songs/track_ids.txt', trackIdsWithoutDuplicates, fmt='%s', delimiter=',')
