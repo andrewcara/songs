@@ -37,10 +37,14 @@ def getSongs():
     chatMessagesAndHandlesJoined = pd.merge(messagesAndHandlesJoined, chatMessagesJoined, on = 'message_id', how='left')
 
     houseMusicChat = chatMessagesAndHandlesJoined[chatMessagesAndHandlesJoined['chat_id'] == 10]
-    usingZlib = houseMusicChat.to_string()
-
-
+    
     houseMusicChat = houseMusicChat[['text', 'attributedBody','date_utc']]
+    
+
+    # The part of the code where we can use the last updated field in the database to sync the playlist
+    #2023-01-17 represents the last updated field in the record being updated
+    # houseMusicChat['date_utc'] = pd.to_datetime(houseMusicChat['date_utc'], format='%Y-%m-%d %H:%M:%S')
+    # houseMusicChat = houseMusicChat.loc[(houseMusicChat['date_utc'] >= '2023-01-17')]
 
 
 

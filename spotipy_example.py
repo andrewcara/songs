@@ -6,7 +6,10 @@ import csv
 scope = "playlist-modify-public"
 #calls the extract-script script which reads the chat.db and updates the txt file
 
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope)) #use the spotipy library to authenticate the user
+auth_manager= spotipy.oauth2.SpotifyOAuth(scope=scope,
+                                               cache_path = '/Users/andrewcaravaggio/SideProjects/songs/.cache',
+                                               show_dialog=True)
+sp = spotipy.Spotify(auth_manager=auth_manager) #use the spotipy library to authenticate the user
 
 # text_file = open("track_ids.txt", "r")
 # lines = text_file.read().split(',')

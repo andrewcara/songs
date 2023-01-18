@@ -23,6 +23,7 @@ cur.execute(" select name from sqlite_master where type = 'table' ")
 
 
 messages = pd.read_sql_query('''select ROWID, text, attributedBody, date, handle_id, datetime(date/1000000000 + strftime("%s", "2001-01-01") ,"unixepoch","localtime")  as date_utc FROM message''', conn) 
+
 messages.rename(columns={'ROWID' : 'message_id'}, inplace = True)
 
 handles = pd.read_sql_query("select ROWID, id from handle", conn)
@@ -41,10 +42,10 @@ usingZlib = houseMusicChat.to_string()
 houseMusicChat = houseMusicChat[['text', 'attributedBody','date_utc']]
 
 
-
 spotifyTrackText = 'https://open.spotify.com/track/'
 
 houseMusicChat['decoded_blob'] = houseMusicChat['attributedBody'].apply(split_it)
+
 
 houseMusicChat = houseMusicChat[houseMusicChat['decoded_blob'].str.startswith(spotifyTrackText) == True]
 
