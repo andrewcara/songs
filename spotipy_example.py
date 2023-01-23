@@ -22,6 +22,8 @@ playlist_id = row['playlist_id']
 chat_id = row['chat_id']
 last_updated = row['last_updated']
 
+
+
 tracks = extract_script.getSongs(chat_id,last_updated) #calling the getSongs function from the extract_script module
 
 if tracks: #if the getSongs function returns none it means that no new songs have been sent in the chat

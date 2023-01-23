@@ -35,7 +35,7 @@ chatMessagesJoined = pd.read_sql_query("select chat_id, message_id from chat_mes
 
 chatMessagesAndHandlesJoined = pd.merge(messagesAndHandlesJoined, chatMessagesJoined, on = 'message_id', how='left')
 
-houseMusicChat = chatMessagesAndHandlesJoined[chatMessagesAndHandlesJoined['chat_id'] == 10]
+houseMusicChat = chatMessagesAndHandlesJoined[chatMessagesAndHandlesJoined['chat_id'] == 2]
 usingZlib = houseMusicChat.to_string()
 
 
@@ -58,3 +58,4 @@ for url in houseMusicChat['decoded_blob'].to_numpy():
 trackIdsWithoutDuplicates = sam_list = list(set(trackIDs)) 
 
 np.savetxt(r'/Users/andrewcaravaggio/track_ids.txt', trackIdsWithoutDuplicates, fmt='%s', delimiter=',')
+
