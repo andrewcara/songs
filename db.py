@@ -51,5 +51,5 @@ def retrieveSingleChat(connection):
 conn = createConnection()
 #GC = retrieveGroupChat(conn)
 SC = retrieveSingleChat(conn)
-print(SC)
+#print(SC)
 

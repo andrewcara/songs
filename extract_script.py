@@ -9,6 +9,10 @@ import re
 
 #Helper function for decoding blob located withing the attributedBody column in chat.db
 def split_it(url_l):
+
+    if not url_l:
+        return none
+
     url_l = url_l.decode("utf-8", "ignore")
     url_l = ''.join(url_l.split())
     results =  re.search('https.+?(?=[?])', url_l)
