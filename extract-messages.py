@@ -4,7 +4,7 @@ import datetime as datetime
 import numpy as np
 from urllib import parse
 import re
-
+import os
 def split_it(url_l):
     url_l = url_l.decode("utf-8", "ignore")
     url_l = ''.join(url_l.split())
@@ -17,7 +17,7 @@ def split_it(url_l):
 
 
 
-conn = sqlite3.connect('/Users/andrewcaravaggio/Library/Messages/chat.db')
+conn = sqlite3.connect(os.environ['HOME']+'/Library/Messages/chat.db')
 cur = conn.cursor()
 cur.execute(" select name from sqlite_master where type = 'table' ") 
 
@@ -35,7 +35,7 @@ chatMessagesJoined = pd.read_sql_query("select chat_id, message_id from chat_mes
 
 chatMessagesAndHandlesJoined = pd.merge(messagesAndHandlesJoined, chatMessagesJoined, on = 'message_id', how='left')
 
-houseMusicChat = chatMessagesAndHandlesJoined[chatMessagesAndHandlesJoined['chat_id'] == 2]
+houseMusicChat = chatMessagesAndHandlesJoined[chatMessagesAndHandlesJoined['chat_id'] == 10]
 usingZlib = houseMusicChat.to_string()
 
 

@@ -8,12 +8,14 @@ from spotipy.oauth2 import SpotifyOAuth
 import csv
 
 
-spot = create_playlist.Spotiy()
+spot = spotify_apis.Spotiy()
 
 ################################################ This section of the code will be updated to access the stored values from swift
-conn = db.createConnection() #connection to the databse
 
-row = conn.cursor().execute("Select * From Playlists") #Query the database for records
+#Right now we are using an sqlite3 db with hardcoded records to simulate the real action
+conn = db.db() #connection to the databse
+
+row = conn.connection.cursor().execute("Select * From Playlists") #Query the database for records
 row = row.fetchone()
 
 playlist_id = row['playlist_id']
@@ -32,7 +34,7 @@ if tracks: #if the getSongs function returns none it means that no new songs hav
     spot.update_playlist(playlist_id, tracks) #Spotipy api that posts songs to a playlist
 
 
-    db.updateTimePlaylist(conn, playlist_id) #Updates DB with current time of posting to playlist
+    conn.updateTimePlaylist(playlist_id) #Updates DB with current time of posting to playlist
 
 else:
     print('no new songs')
