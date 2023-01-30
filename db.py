@@ -51,8 +51,6 @@ class db:
         self.connection.cursor().close()
         print('connection closed')
 
-conn = db()
-conn.closeConnection()
 # SC = conn.retrieveSingleChat()
 # print(SC)
 
