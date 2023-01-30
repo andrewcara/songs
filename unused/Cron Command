@@ -1,3 +1,0 @@
-* * * * * cd {absolute path to file with .js file that wants to be run} && {which node} app.js >/tmp/stdout.log 2>/tmp/stderr.log
-
-Where 
