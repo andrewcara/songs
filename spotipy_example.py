@@ -8,6 +8,7 @@ from spotipy.oauth2 import SpotifyOAuth
 import csv
 
 
+#instatiate spotify class
 spot = spotify_apis.Spotiy()
 
 ################################################ This section of the code will be updated to access the stored values from swift
@@ -25,7 +26,7 @@ last_updated = row['last_updated']
 ################################################
 
 
-tracks = extract_script.getSongs(10,last_updated) #calling the getSongs function from the extract_script module
+tracks = extract_script.get_songs(10,last_updated) #calling the getSongs function from the extract_script module
 
 if tracks: #if the getSongs function returns none it means that no new songs have been sent in the chat
     for index, row in enumerate(tracks): 

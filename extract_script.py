@@ -22,7 +22,7 @@ def split_it(url_l):
         return results.group()
     return None
 
-def getSongs(chat_id, last_updated):
+def get_songs(chat_id, last_updated):
 
 
     conn = sqlite3.connect('/Users/andrewcaravaggio/Library/Messages/chat.db')

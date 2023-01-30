@@ -47,8 +47,12 @@ class db:
         #rows = rows.to_json(orient='records')
         return rows
 
-# conn = db()
+    def closeConnection(self):
+        self.connection.cursor().close()
+        print('connection closed')
 
+conn = db()
+conn.closeConnection()
 # SC = conn.retrieveSingleChat()
 # print(SC)
 
