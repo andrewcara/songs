@@ -10,12 +10,9 @@ class Spotiy:
                                                 cache_path = '/Users/andrewcaravaggio/SideProjects/songs/.cache',
                                                 show_dialog=True)
 
-        self.conn = spotipy.Spotify(auth_manager=auth_manager) #
+        self.conn = spotipy.Spotify(auth_manager=auth_manager)
 
         self.user_id = self.conn.current_user()['id']
-    
-    
-    
     
     #method that creates a playlist
     #The user can pass it a name and a description
@@ -29,13 +26,21 @@ class Spotiy:
         else:
             return('error something went wrong')
     
-    
     #Updates playlist method
     def update_playlist(self, playlist_id, tracks):
         
-        response = self.conn.playlist_add_items(playlist_id, tracks, position=None)
+        for index, row in enumerate(tracks): 
+            tracks[index] = ('spotify:track:'+row) #append spotify:track to each of the track ids for the spotify api
 
-
+        if len(tracks) > 100:
+            num_of_spot_posts = int(len(tracks) / 100) # need to divide list if the tracks are more than 100
+            for i in range(num_of_spot_posts+1):
+                if i == (num_of_spot_posts):
+                    self.conn.playlist_add_items(playlist_id, tracks[99*i:], position=None)
+                    break
+                self.conn.playlist_add_items(playlist_id, tracks[99*i: 99 + (100*i)], position=None)# This is just a range basically saying to upload in intervals of 100 songs
+        else:
+            response = self.conn.playlist_add_items(playlist_id, tracks, position=None)
 
     #Delete playlist
 
@@ -44,6 +49,9 @@ class Spotiy:
         response = self.conn.current_user_unfollow_playlist(playlist_id)
         return response
 
+    
+    
+    
 # spot = Spotiy()
 
 # #output = spot.create_playlist(spot.user_id, 'new playlist', 'creating a new playlist')

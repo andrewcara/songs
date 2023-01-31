@@ -7,6 +7,7 @@ import numpy as np
 from urllib import parse
 import re
 
+
 #Helper function for decoding blob located withing the attributedBody column in chat.db
 def split_it(url_l):
 
