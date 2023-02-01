@@ -1,15 +1,19 @@
 import sqlite3
 import time
 import pandas as pd
+import os
 
 #pd.set_option("display.max_rows", None)
 class db:
     def __init__(self):
+        chat_db_string = f"\'{os.environ['HOME']}/Library/Messages/chat.db\'"
+        contact_string = f"\'{os.environ["HOME"]}/Library/Application Support/AddressBook/Sources/24485206-D95C-4125-A166-735537F69AC7/AddressBook-v22.abcddb\'"
+
 
         self.connection = sqlite3.connect("/Users/andrewcaravaggio/SideProjects/songs/AutoSpoto")
         self.connection.row_factory = sqlite3.Row
-        self.connection.cursor().execute("attach '/Users/andrewcaravaggio/Library/Messages/chat.db' as cdb")
-        self.connection.cursor().execute("attach'/Users/andrewcaravaggio/Library/Application Support/AddressBook/Sources/24485206-D95C-4125-A166-735537F69AC7/AddressBook-v22.abcddb' as adb")
+        self.connection.cursor().execute("attach" +chat_db_string+ "as cdb")
+        self.connection.cursor().execute("attach"+contact_string+ "as adb")
 
     def createTable(self):
 
@@ -51,6 +55,7 @@ class db:
         self.connection.cursor().close()
         print('connection closed')
 
-# SC = conn.retrieveSingleChat()
-# print(SC)
+SC = db()
+x = SC.retrieveSingleChat()
+print(x)
 

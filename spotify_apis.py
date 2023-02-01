@@ -1,19 +1,23 @@
 import spotipy
-
+import os
 
 class Spotiy:
 
     #An instance of the class contains a connection and the user_id. All subsequent API calls can be made using these attributes and a playlist id
     
     def __init__(self):
+
+        cache_path = os.environ['HOME'] + '/SideProjects/songs/.cache'
+
         auth_manager= spotipy.oauth2.SpotifyOAuth(scope="playlist-modify-public",
-                                                cache_path = '/Users/andrewcaravaggio/SideProjects/songs/.cache',
+                                                cache_path =cache_path,
                                                 show_dialog=True)
 
         self.conn = spotipy.Spotify(auth_manager=auth_manager)
 
         self.user_id = self.conn.current_user()['id']
-    
+
+        
     #method that creates a playlist
     #The user can pass it a name and a description
     

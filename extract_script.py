@@ -6,6 +6,7 @@ import datetime as datetime
 import numpy as np
 from urllib import parse
 import re
+import os
 
 
 #Helper function for decoding blob located withing the attributedBody column in chat.db
@@ -26,7 +27,7 @@ def split_it(url_l):
 def get_songs(chat_id, last_updated):
 
 
-    conn = sqlite3.connect('/Users/andrewcaravaggio/Library/Messages/chat.db')
+    conn = sqlite3.connect(os.environ['HOME'] + '/Library/Messages/chat.db')
     cur = conn.cursor()
     cur.execute(" select name from sqlite_master where type = 'table' ") 
 

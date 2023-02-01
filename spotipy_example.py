@@ -2,7 +2,7 @@
 import extract_script #import the script that accesses the chat.db
 import db
 import spotify_apis
-
+import os
         
 #instatiate spotify class
 spot = spotify_apis.Spotiy()
@@ -20,14 +20,14 @@ spot = spotify_apis.Spotiy()
 # last_updated = row['last_updated']
 
 ################################################
-tracks = []
-for x in range(0,149):
-    tracks.append('spotify:track:4EN8bvbrouNrylrTucVkdb')
-
+# tracks = []
+# for x in range(0,149):
+#     tracks.append('spotify:track:4EN8bvbrouNrylrTucVkdb')
+playlist_id = '3dJEOULxyXEyDhHZD25W8E'
 #tracks = extract_script.get_songs(10,last_updated) #calling the getSongs function from the extract_script module
-
+tracks = ['7nycFVsC616uen7TOxhOQb']
 if tracks: #if the getSongs function returns none it means that no new songs have been sent in the chat
-    spot.update_playlist('3dJEOULxyXEyDhHZD25W8E', tracks)    
+    spot.update_playlist(playlist_id, tracks)   
 
 else:
     print('no new songs')
